@@ -619,5 +619,241 @@ body {
   .glossary-grid {
     grid-template-columns: 1fr;
   }
-        }
+}
+
+/* ===========================
+   LOCKED — ТОМ VIII
+=========================== */
+.locked-hint {
+  margin: 3rem auto 0;
+  max-width: 480px;
+  text-align: center;
+  border: 1px solid var(--border);
+  padding: 2.5rem 2rem;
+  background: var(--surface);
+  position: relative;
+}
+.locked-hint::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border: 1px solid var(--accent);
+  opacity: 0.15;
+  pointer-events: none;
+}
+.locked-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  filter: grayscale(1);
+  opacity: 0.5;
+}
+.locked-text {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  color: var(--text-bright);
+  margin-bottom: 0.75rem;
+}
+.locked-sub {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  font-style: italic;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+.locked-link {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  text-decoration: none;
+  border: 1px solid var(--accent);
+  padding: 0.6rem 1.25rem;
+  transition: all 0.2s;
+  display: inline-block;
+}
+.locked-link:hover {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+/* ===========================
+   СЕКРЕТНЫЙ ЗАГОЛОВОК — ТОМ I
+=========================== */
+.secret-title-wrap {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  user-select: none;
+}
+.secret-title-wrap .secret-counter {
+  position: absolute;
+  top: -0.5rem;
+  right: -1.5rem;
+  font-family: 'Unbounded', sans-serif;
+  font-size: 0.6rem;
+  color: var(--accent);
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+.secret-title-wrap.counting .secret-counter {
+  opacity: 1;
+}
+.secret-reveal {
+  display: none;
+  margin-top: 1.5rem;
+  text-align: left;
+}
+.secret-reveal.visible {
+  display: block;
+  animation: fadeIn 0.5s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.secret-code-label {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  color: var(--text-dim);
+  margin-bottom: 0.75rem;
+  display: block;
+}
+.secret-code {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 2rem;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 0.75rem;
+}
+.secret-code-hint {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--text-dim);
+}
+.secret-code-hint a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent);
+}
+
+/* ===========================
+   ЭКРАН ПАРОЛЯ — ТОМ VIII
+=========================== */
+.password-screen {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem 2rem;
+}
+.password-lock-icon {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  filter: grayscale(0.3);
+}
+.password-title {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+.password-subtitle {
+  font-style: italic;
+  color: var(--fog);
+  margin-bottom: 2.5rem;
+  font-size: 0.95rem;
+}
+.password-form {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.password-input {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-bright);
+  font-family: 'Unbounded', sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.2em;
+  padding: 0.75rem 1.25rem;
+  outline: none;
+  width: 200px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: border-color 0.2s;
+}
+.password-input:focus {
+  border-color: var(--accent);
+}
+.password-input.error {
+  border-color: var(--danger);
+  animation: shake 0.3s ease;
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+.password-btn {
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-family: 'Unbounded', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.password-btn:hover {
+  background: var(--accent);
+  color: var(--bg);
+}
+.password-error {
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  color: var(--danger);
+  font-style: italic;
+  opacity: 0;
+  transition: opacity 0.2s;
+  height: 1.2em;
+}
+.password-error.visible {
+  opacity: 1;
+}
+.password-hint-link {
+  margin-top: 2rem;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  font-style: italic;
+}
+.password-hint-link a {
+  color: var(--text-dim);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+}
+.password-hint-link a:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.book-content-locked {
+  display: none;
+}
+.book-content-locked.unlocked {
+  display: block;
+  animation: fadeIn 0.8s ease;
+   }
+     
    
