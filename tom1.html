@@ -36,9 +36,47 @@
 <main class="tome-page">
   <div class="tome-page-header">
     <span class="tome-page-num">Том I</span>
-    <h1 class="tome-page-title">Челябинск</h1>
+    <div class="secret-title-wrap" id="secretTitle" onclick="handleSecretClick()">
+      <h1 class="tome-page-title">Челябинск<span class="secret-counter" id="secretCounter"></span></h1>
+    </div>
     <p class="tome-page-desc">Детствость, школьность, армийность. Первые слухи про городность в туманность.</p>
+    <div class="secret-reveal" id="secretReveal">
+      <span class="secret-code-label">Код к последность:</span>
+      <span class="secret-code">DRUN112</span>
+      <p class="secret-code-hint">Введи его на странице <a href="tom8.html">Том VIII</a>, чтобы прочитать концовку.</p>
+    </div>
   </div>
+
+  <script>
+    let clickCount = 0;
+    let clickTimer = null;
+    const needed = 5;
+
+    function handleSecretClick() {
+      clickCount++;
+      const wrap = document.getElementById('secretTitle');
+      const counter = document.getElementById('secretCounter');
+      const reveal = document.getElementById('secretReveal');
+
+      if (clickCount >= needed) {
+        reveal.classList.add('visible');
+        wrap.classList.remove('counting');
+        counter.textContent = '';
+        clickCount = 0;
+        return;
+      }
+
+      wrap.classList.add('counting');
+      counter.textContent = clickCount + '/' + needed;
+
+      clearTimeout(clickTimer);
+      clickTimer = setTimeout(() => {
+        clickCount = 0;
+        wrap.classList.remove('counting');
+        counter.textContent = '';
+      }, 2500);
+    }
+  </script>
   <div class="tome-divider"></div>
   <div class="book-text">
 
@@ -118,3 +156,4 @@
 </footer>
 </body>
 </html>
+
