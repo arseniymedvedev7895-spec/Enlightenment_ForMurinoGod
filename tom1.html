@@ -39,7 +39,7 @@
     <div class="secret-title-wrap" id="secretTitle" onclick="handleSecretClick()">
       <h1 class="tome-page-title">Челябинск<span class="secret-counter" id="secretCounter"></span></h1>
     </div>
-    <p class="tome-page-desc">Детствость, школьность, армийность. Первые слухи про городность в туманность.</p>
+    <p class="tome-page-desc" id="pageDesc">Детствость, школьность, армийность. Первые слухи про городность в туманность.</p>
     <div class="secret-reveal" id="secretReveal">
       <span class="secret-code-label">Код к последность:</span>
       <span class="secret-code">DRUN112</span>
@@ -48,6 +48,15 @@
   </div>
 
   <script>
+    // Подсказкность — если пришёл с замка тома VII
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('hint') === '1') {
+      document.getElementById('pageDesc').textContent =
+        'Челябинск выглядит подозрительно… Может, стоит присмотреться к тому, что здесь есть?';
+      document.getElementById('pageDesc').style.color = 'var(--accent)';
+      document.getElementById('pageDesc').style.fontStyle = 'italic';
+    }
+
     let clickCount = 0;
     let clickTimer = null;
     const needed = 5;
@@ -156,4 +165,3 @@
 </footer>
 </body>
 </html>
-
