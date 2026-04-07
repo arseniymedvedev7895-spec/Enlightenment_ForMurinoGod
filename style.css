@@ -854,6 +854,127 @@ body {
 .book-content-locked.unlocked {
   display: block;
   animation: fadeIn 0.8s ease;
-   }
-     
-   
+}
+
+/* ===========================
+   СПИН-ОФФНОСТЬ
+=========================== */
+.spinoff-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem 5rem;
+  border-top: 1px solid var(--border);
+  padding-top: 5rem;
+}
+
+.spinoff-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+  position: relative;
+}
+
+.spinoff-info-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid var(--text-dim);
+  background: transparent;
+  color: var(--text-dim);
+  font-family: 'Spectral', serif;
+  font-style: italic;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  flex-shrink: 0;
+  margin-bottom: 0.15rem;
+}
+.spinoff-info-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.spinoff-info-popup {
+  display: none;
+  position: absolute;
+  top: 2.2rem;
+  left: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 1.25rem 1.5rem;
+  min-width: 240px;
+  z-index: 50;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+.spinoff-info-popup.open {
+  display: block;
+  animation: fadeIn 0.2s ease;
+}
+.spinoff-info-label {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 1rem;
+}
+.spinoff-contact-link {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.85rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+  transition: color 0.2s;
+}
+.spinoff-contact-link:last-child {
+  border-bottom: none;
+}
+.spinoff-contact-link:hover {
+  color: var(--accent);
+}
+.spinoff-contact-icon {
+  color: var(--accent);
+  font-size: 0.9rem;
+  width: 1.2rem;
+  text-align: center;
+}
+
+/* — Карточки спин-оффов — */
+.spinoff-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  border: 1px solid var(--border);
+}
+
+.spinoff-item {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+}
+.spinoff-item:last-child {
+  border-bottom: none;
+}
+
+.spinoff-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  gap: 1rem;
+}
+.spinoff-item-header:hover {
+  background: var(--bg2);
+}
+.spinoff-item-left {
+  display: flex;
+  flex-direction: col
