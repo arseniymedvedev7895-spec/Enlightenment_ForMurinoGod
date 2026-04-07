@@ -136,6 +136,94 @@
     </div>
   </section>
 
+  <section class="spinoff-section">
+    <div class="spinoff-header">
+      <h2 class="section-title">Спин-оффность</h2>
+      <button class="spinoff-info-btn" id="spinoffInfoBtn" onclick="toggleInfoPopup()" title="Об авторе">
+        <span>i</span>
+      </button>
+      <div class="spinoff-info-popup" id="spinoffInfoPopup">
+        <p class="spinoff-info-label">Автор и контактность</p>
+        <a class="spinoff-contact-link" href="https://t.me/" target="_blank">
+          <span class="spinoff-contact-icon">✈</span> История про Фернана Магеланна
+        </a>
+        <a class="spinoff-contact-link" href="https://www.tiktok.com/@hmnffr" target="_blank">
+          <span class="spinoff-contact-icon">♪</span> TikTok @hmnffr
+        </a>
+      </div>
+    </div>
+
+    <div class="spinoff-list">
+
+      <div class="spinoff-item" onclick="toggleSpinoff(this)">
+        <div class="spinoff-item-header">
+          <div class="spinoff-item-left">
+            <span class="spinoff-item-tag">Историческость</span>
+            <h3 class="spinoff-item-title">Открытие Села Молочного</h3>
+            <p class="spinoff-item-sub">1519 год · Фердрун Амамам · Мореность</p>
+          </div>
+          <span class="spinoff-item-arrow">↓</span>
+        </div>
+        <div class="spinoff-item-body">
+          <div class="spinoff-text book-text">
+
+            <p style="font-family:'Unbounded',sans-serif; font-size:0.6rem; letter-spacing:0.2em; color:var(--accent); margin-bottom:1.5rem;">
+              ОТКРЫТИЕ СЕЛА МОЛОЧНОГО В 1519 ГОДУ
+            </p>
+
+            <p>Фердрун Амамам услышал про селность Молочное случайность.</p>
+
+            <p>Кто-то говорил, что это просто байканость. Кто-то — что это место, куда лучше не идти.</p>
+
+            <p>Но Фердрун был из тех, кто наоборот шёл именно туда. Он решил найти его.</p>
+
+            <div class="scene-break">· · ·</div>
+
+            <p>В 1519 году он отправился в мореность.</p>
+
+            <p>Командность особо не понимала, куда они плывут. Им говорили разное. Иногда даже противоречивость. Но корабль уже шёл, и возвращаться никто не хотел.</p>
+
+            <div class="scene-break">· · ·</div>
+
+            <p>Сначалость всё было обычно. Потом стало… странность.</p>
+
+            <p>Мореность иногда затихало полностью. Иногда корабль двигался сам. Матросность начали замечать, что что-то не так.</p>
+
+            <p>Но Фердрун только смотрел вперёд. Как будто знал, что делает.</p>
+
+            <div class="scene-break">· · ·</div>
+
+            <p>Однажды ночью они увидели новое созвездие.</p>
+
+            <p><span class="emphasis">Созвездие паука шляпожуя.</span></p>
+
+            <p>Его раньше не было. Оно как будто просто появилось. И именно тогда Фердрун сказал:</p>
+
+            <div class="dialogue">— Мы близко.</div>
+
+            <div class="scene-break">· · ·</div>
+
+            <p>После этого путь как будто перестал быть обычным. Сколько они плыли дальше — никто не помнил. Дни путались. Ночность тянулись. Но корабль всё равно шёл.</p>
+
+            <div class="scene-break">· · ·</div>
+
+            <p>На этом всё обрывается.</p>
+
+            <p>Неизвестно, как именно он нашёл земленость. Неизвестно, что он там увидел первым.</p>
+
+            <p>Но спустя время начали говорить:</p>
+
+            <p>что селность Молочное всё-таки существует,<br>
+            что там есть огромные пауки,<br>
+            и что туда лучше не попадать.</p>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
   <section class="language-section">
     <div class="lang-inner">
       <div class="lang-text">
@@ -174,6 +262,25 @@
 <footer class="site-footer">
   <span>Великая Эщкерия · муринский языкность · github.io</span>
 </footer>
+
+<script>
+  function toggleSpinoff(el) {
+    el.classList.toggle('open');
+  }
+
+  function toggleInfoPopup() {
+    document.getElementById('spinoffInfoPopup').classList.toggle('open');
+  }
+
+  // Закрыть попап при клике вне
+  document.addEventListener('click', function(e) {
+    const popup = document.getElementById('spinoffInfoPopup');
+    const btn = document.getElementById('spinoffInfoBtn');
+    if (!popup.contains(e.target) && !btn.contains(e.target)) {
+      popup.classList.remove('open');
+    }
+  });
+</script>
 
 </body>
 </html>
