@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Переводчик — Муринский язык</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700;900&family=Spectral:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0e;
+  --bg2: #10101a;
+  --surface: #14141f;
+  --border: #2a2a3e;
+  --accent: #c8a85a;
+  --fog: #6b8fa8;
+  --text: #d8d4c8;
+  --text-dim: #7a7870;
+  --text-bright: #f0ead8;
+  --danger: #b84040;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Spectral', Georgia, serif;
+  font-size: 17px;
+  line-height: 1.75;
+  min-height: 100vh;
+}
+
+.noise {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* Header */
+.header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(10,10,14,0.94);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  height: 60px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.header-logo {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 0.8rem; font-weight: 900;
+  letter-spacing: 0.2em; color: var(--text-bright);
+  text-decoration: none;
+}
+.header-logo span { color: var(--accent); }
+.header-back {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 0.6rem; letter-spacing: 0.1em;
+  color: var(--text-dim); text-decoration: none;
+  border: 1px solid var(--border); padding: 0.35rem 0.85rem;
+  transition: all 0.2s;
+}
+.header-back:hover { color: var(--accent); border-color: var(--accent); }
+
+/* Main */
+.main { max-width: 860px; margin: 0 auto; padding: 4rem 2rem 6rem; position: relative; z-index: 1; }
+
+.page-eyebrow {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 0.6rem; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 1rem;
+}
+.page-title {
+  font-family: 'Unbounded', sans-serif;
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-weight: 900; color: var(--text-bright);
+  letter-spacing: -0.03em; line-height: 1;
+  margin-bottom: 0.75rem;
+}
+.page-sub {
+  font-style: italic; color: var(--fog);
+  font-size: 0.95rem; margin-bottom: 3rem;
+}
+
+.divider {
+  width: 100%; height: 1px;
+  background: linear-gradient(to right, var(--accent), transparent);
+  margin-bottom: 2.5rem;
+}
+
+/* Translator box */
+.translator {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+@media (max-width: 640px) {
+  .translator { grid-template-columns: 1fr; }
+}
+
+.t-panel {
+  display: flex; flex-direction: column; gap: 0.5rem;
+}
+.t-label {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 0.6rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--text-dim);
+}
+.t-textarea {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-bright);
+  font-family: 'Spectral', serif;
+  font-size: 1rem; line-height: 1.75;
+  padding: 1.25rem;
+  resize: vertical;
+  min-height: 220px;
+  outline: none;
+  transition: border-color 0.2s;
+  width: 100%;
+}
+.t-textarea:focus { border-color: var(--accent); }
+.t-textarea[readonly] {
+  color: var(--accent);
+  font-style: italic;
+  cursor: default;
+}
+.t-textarea::placeholder { color: var(--text-dim); font-style: italic; }
+
+.t-actions {
+  display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center;
+}
+.btn-translate {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 0.65rem; letter-spacing: 0.15em;
+  background: var(--accent); color: var(--bg);
+  border: none; padding: 0.75rem 2rem;
+  cursor: pointer; transition: opacity 0.2s;
+}
+.btn-translate:hover { opacity: 0.85; }
+.btn-clear {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 0.65rem; letter-spacing: 0.1em;
+  background: transparent; color: var(--text-dim);
+  border: 1px solid var(--border); padding: 0.75rem 1.25rem;
+  cursor: pointer; transition: all 0.2s;
+}
+.btn-clear:hover { color: var(--danger); border-color: var(--danger); }
+.btn-copy {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 0.65rem; letter-spacing: 0.1em;
+  background: transparent; color: var(--text-dim);
+  border: 1px solid var(--border); padding: 0.75rem 1.25rem;
+  cursor: pointer; transition: all 0.2s; margin-left: auto;
+}
+.btn-copy:hover { color: var(--accent); border-color: var(--accent); }
+.btn-copy.copied { color: var(--accent); border-color: var(--accent); }
+
+.t-note {
+  font-size: 0.78rem; color: var(--text-dim);
+  font-style: italic; margin-top: 0.5rem;
+}
+
+/* Rules mini block */
+.rules-block {
+  margin-top: 3rem;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+.rules-block-title {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  font-family: 'Unbounded', sans-serif;
+  font-size: 0.6rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--accent);
+}
+.rules-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+@media (max-width: 600px) { .rules-grid { grid-template-columns: 1fr; } }
+.rule-item {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  font-size: 0.85rem;
+}
+.rule-item:nth-child(even) { border-right: none; }
+.rule-title { font-family: 'Unbounded', sans-serif; font-size: 0.6rem; color: var(--text-dim); margin-bottom: 0.3rem; }
+.rule-example { color: var(--text-bright); }
+.rule-example span { color: var(--accent); font-style: italic; }
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: 1.5rem 2rem;
+  text-align: center;
+  font-family: 'Unbounded', sans-serif;
+  font-size: 0.6rem; letter-spacing: 0.15em; color: var(--text-dim);
+  position: relative; z-index: 1;
+}
+</style>
+</head>
+<body>
+<div class="noise"></div>
+
+<header class="header">
+  <a class="header-logo" href="index.html">⌬ <span>ДРУН</span></a>
+  <a class="header-back" href="glossary.html">← Словность</a>
+</header>
+
+<main class="main">
+  <p class="page-eyebrow">Инструментность</p>
+  <h1 class="page-title">Переводчик</h1>
+  <p class="page-sub">Русский → Муринский языкность</p>
+  <div class="divider"></div>
+
+  <div class="translator">
+    <div class="t-panel">
+      <label class="t-label" for="inputText">Русский текст</label>
+      <textarea
+        class="t-textarea"
+        id="inputText"
+        placeholder="Введи текст на русском языке…"
+        oninput="autoTranslate()"
+      ></textarea>
+    </div>
+    <div class="t-panel">
+      <label class="t-label" for="outputText">Муринский переводность</label>
+      <textarea
+        class="t-textarea"
+        id="outputText"
+        readonly
+        placeholder="Здесь появится переводность…"
+      ></textarea>
+    </div>
+  </div>
+
+  <div class="t-actions">
+    <button class="btn-translate" onclick="translate()">Перевести</button>
+    <button class="btn-clear" onclick="clearAll()">Очистить</button>
+    <button class="btn-copy" id="copyBtn" onclick="copyResult()">Скопировать</button>
+  </div>
+  <p class="t-note">Переводчик работает по базовым правилам муринского языка. Некоторые слова могут требовать ручной правки.</p>
+
+  <div class="rules-block">
+    <div class="rules-block-title">Как работает переводность</div>
+    <div class="rules-grid">
+      <div class="rule-item">
+        <div class="rule-title">Существительные</div>
+        <div class="rule-example">город → <span>городность</span></div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-title">Исключения (лор)</div>
+        <div class="rule-example">папа → <span>батч</span>, я → <span>ч</span></div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-title">Глаголы</div>
+        <div class="rule-example">пошёл → <span>пошёл</span> (не меняется)</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-title">Города</div>
+        <div class="rule-example">Мурино → <span>Мурино</span> (не меняется)</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-title">Технические слова</div>
+        <div class="rule-example">компьютер → <span>компьютер</span></div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-title">Запрещено</div>
+        <div class="rule-example" style="color:var(--danger);">тамность, живёшьность ✗</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  Великая Эщкерия · муринский языкность · переводчик
+</footer>
+
+<script>
+// =============================================
+// Словарь исключений (лор)
+// =============================================
+const EXCEPTIONS = {
+  'я': 'ч',
+  'папа': 'батч',
+  'мама': 'мамность',
+  'сын': 'сыр',
+  'дочь': 'дотч',
+  'брат': 'братч',
+  'сестра': 'сестрч',
+  'друг': 'друн',
+  'подруга': 'подруня',
+  'дед': 'дод',
+  'прадед': 'прадод',
+};
+
+// Неизменяемые слова
+const UNCHANGED = new Set([
+  'компьютер','интернет','телевизор','панельные','бтр','the','fog',
+  'мурино','челябинск','мытищи','меднобыковск','пасхалск','молочное',
+  'витевка','солнце','москва','петербург','россия',
+]);
+
+// Слова которые НЕ надо искажать (глаголы, служебные)
+const VERBS_ENDINGS = ['ать','ить','еть','уть','оть','ться','ться',
+  'ал','ила','ило','или','ел','ела','ли','ут','ют','ит','ат','ешь','ишь',
+  'аю','яю','уем','ием','ает','яет','ит','ет'];
+
+const SERVICE = new Set([
+  'и','в','на','с','к','от','по','за','до','из','у','о','об','для',
+  'не','но','а','или','что','как','так','то','это','все','всё',
+  'уже','ещё','тут','там','тогда','потом','если','когда','где',
+  'он','она','оно','они','его','её','им','их','себя',
+  'был','была','было','были','есть','нет',
+]);
+
+// Окончания существительных (которые стоит трогать)
+const NOUN_ENDINGS = ['ие','ия','ие','ий','ья','ье','ей','ей','ев',
+  'а','у','е','и','ы','ом','ем','ой','ей','ых','их',
+  'ами','ями','ах','ях'];
+
+function isVerb(word) {
+  const w = word.toLowerCase();
+  for (const end of VERBS_ENDINGS) {
+    if (w.endsWith(end) && w.length > end.length + 1) return true;
+  }
+  return false;
+}
+
+function isUnchanged(word) {
+  return UNCHANGED.has(word.toLowerCase());
+}
+
+function isService(word) {
+  return SERVICE.has(word.toLowerCase());
+}
+
+function isException(word) {
+  return EXCEPTIONS[word.toLowerCase()] !== undefined;
+}
+
+function stripNounEnding(word) {
+  const w = word.toLowerCase();
+  // Сортируем по длине — сначала длинные окончания
+  const sorted = [...NOUN_ENDINGS].sort((a,b) => b.length - a.length);
+  for (const end of sorted) {
+    if (w.endsWith(end) && w.length > end.length + 2) {
+      return word.slice(0, word.length - end.length);
+    }
+  }
+  return word;
+}
+
+function addSuffix(root) {
+  const r = root.toLowerCase();
+  // Выбираем -ность или -ость по последней букве корня
+  const softConsonants = ['ж','ш','щ','ч','й','ь'];
+  const vowels = ['а','е','ё','и','о','у','ы','э','ю','я'];
+  const last = r[r.length - 1];
+  if (vowels.includes(last)) {
+    return root + 'сть';
+  } else if (softConsonants.includes(last)) {
+    return root + 'ость';
+  } else {
+    // чередуем для разнообразия по длине слова
+    return root.length % 2 === 0 ? root + 'ность' : root + 'ость';
+  }
+}
+
+function translateWord(word) {
+  if (!word || word.trim() === '') return word;
+
+  // Сохраняем пунктуацию вокруг слова
+  const match = word.match(/^([^а-яёА-ЯЁa-zA-Z0-9]*)([а-яёА-ЯЁa-zA-Z0-9'-]+)([^а-яёА-ЯЁa-zA-Z0-9]*)$/);
+  if (!match) return word;
+
+  const [, pre, core, post] = match;
+  const lower = core.toLowerCase();
+  const isCapital = core[0] === core[0].toUpperCase() && core[0] !== core[0].toLowerCase();
+
+  // 1. Исключение-лор
+  if (isException(lower)) {
+    const exc = EXCEPTIONS[lower];
+    return pre + (isCapital ? exc[0].toUpperCase() + exc.slice(1) : exc) + post;
+  }
+
+  // 2. Неизменяемые
+  if (isUnchanged(lower)) return word;
+
+  // 3. Служебные слова
+  if (isService(lower)) return word;
+
+  // 4. Глаголы — не трогаем
+  if (isVerb(lower)) return word;
+
+  // 5. Короткие слова (до 3 букв) — не трогаем
+  if (core.length <= 3) return word;
+
+  // 6. Уже заканчивается на -ость/-ность/-сть — не дублируем
+  if (lower.endsWith('ость') || lower.endsWith('ность') || lower.endsWith('сть')) return word;
+
+  // 7. Применяем — снимаем падежное окончание, добавляем суффикс
+  const root = stripNounEnding(core);
+  const result = addSuffix(root);
+
+  return pre + (isCapital ? result[0].toUpperCase() + result.slice(1) : result) + post;
+}
+
+function translateText(text) {
+  if (!text.trim()) return '';
+  // Разбиваем по пробелам, сохраняя переносы строк
+  const lines = text.split('\n');
+  return lines.map(line => {
+    const words = line.split(/(\s+)/);
+    return words.map(w => /^\s+$/.test(w) ? w : translateWord(w)).join('');
+  }).join('\n');
+}
+
+function translate() {
+  const input = document.getElementById('inputText').value;
+  document.getElementById('outputText').value = translateText(input);
+}
+
+function autoTranslate() {
+  const input = document.getElementById('inputText').value;
+  if (input.length < 200) translate();
+}
+
+function clearAll() {
+  document.getElementById('inputText').value = '';
+  document.getElementById('outputText').value = '';
+}
+
+function copyResult() {
+  const output = document.getElementById('outputText').value;
+  if (!output) return;
+  navigator.clipboard.writeText(output).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'Скопировано ✓';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Скопировать';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+</script>
+
+</body>
+          </html>
+  
