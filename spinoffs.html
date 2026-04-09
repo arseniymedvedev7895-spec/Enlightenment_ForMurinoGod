@@ -42,7 +42,7 @@
     <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
       <span class="tome-page-num">Разветвленость</span>
       <div style="position:relative; margin-left:auto;">
-        <button class="spinoff-info-btn" id="infoBtn" onclick="toggleInfo()" title="Контактность автора">
+        <button class="spinoff-info-btn" id="infoBtn" title="Контактность автора">
           <span>i</span>
         </button>
         <div class="spinoff-info-popup" id="infoPopup">
@@ -61,12 +61,11 @@
   </div>
   <div class="tome-divider"></div>
 
-  <!-- СПИСОК СПИН-ОФФОВ -->
   <div class="so-list">
 
     <!-- СПИН-ОФФ 1 -->
     <div class="so-card" id="so1">
-      <div class="so-card-header" onclick="toggleSO('so1')">
+      <div class="so-card-header">
         <div class="so-card-meta">
           <span class="so-card-tag">Историческость</span>
           <span class="so-card-year">1519</span>
@@ -87,31 +86,24 @@
           </p>
 
           <p>Фердрун Амамам услышал про селность Молочное случайность.</p>
-
           <p>Кто-то говорил, что это просто байканость. Кто-то — что это место, куда лучше не идти.</p>
-
           <p>Но Фердрун был из тех, кто наоборот шёл именно туда. Он решил найти его.</p>
 
           <div class="scene-break">· · ·</div>
 
           <p>В 1519 году он отправился в мореность.</p>
-
           <p>Командность особо не понимала, куда они плывут. Им говорили разное. Иногда даже противоречивость. Но корабль уже шёл, и возвращаться никто не хотел.</p>
 
           <div class="scene-break">· · ·</div>
 
           <p>Сначалость всё было обычно. Потом стало… странность.</p>
-
           <p>Мореность иногда затихало полностью. Иногда корабль двигался сам. Матросность начали замечать, что что-то не так.</p>
-
           <p>Но Фердрун только смотрел вперёд. Как будто знал, что делает.</p>
 
           <div class="scene-break">· · ·</div>
 
           <p>Однажды ночью они увидели новое созвездие.</p>
-
           <p><span class="emphasis">Созвездие паука шляпожуя.</span></p>
-
           <p>Его раньше не было. Оно как будто просто появилось. И именно тогда Фердрун сказал:</p>
 
           <div class="dialogue">— Мы близко.</div>
@@ -123,11 +115,8 @@
           <div class="scene-break">· · ·</div>
 
           <p>На этом всё обрывается.</p>
-
           <p>Неизвестно, как именно он нашёл земленость. Неизвестно, что он там увидел первым.</p>
-
           <p>Но спустя время начали говорить:</p>
-
           <p>что селность Молочное всё-таки существует,<br>
           что там есть огромные пауки,<br>
           и что туда лучше не попадать.</p>
@@ -136,9 +125,9 @@
       </div>
     </div>
 
-    <!-- Placeholder для будущих спин-оффов -->
+    <!-- Placeholder -->
     <div class="so-card so-card--empty">
-      <div class="so-card-header" style="cursor:default;">
+      <div class="so-card-header" style="cursor:default; pointer-events:none;">
         <div class="so-card-meta">
           <span class="so-card-tag" style="opacity:0.4;">Скоро</span>
         </div>
@@ -161,25 +150,40 @@
 </footer>
 
 <script>
-  function toggleSO(id) {
-    const card = document.getElementById(id);
-    const body = document.getElementById(id + '-body');
-    const arrow = document.getElementById(id + '-arrow');
-    const label = document.getElementById(id + '-label');
-    const isOpen = card.classList.toggle('so-open');
-    arrow.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
-    label.textContent = isOpen ? 'Свернуть' : 'Читать';
-  }
-
-  function toggleInfo() {
+  // ——— Кнопка ⓘ ———
+  document.getElementById('infoBtn').addEventListener('click', function(e) {
+    e.stopPropagation();
     document.getElementById('infoPopup').classList.toggle('open');
-  }
+  });
   document.addEventListener('click', function(e) {
     const popup = document.getElementById('infoPopup');
-    const btn = document.getElementById('infoBtn');
-    if (popup && !popup.contains(e.target) && !btn.contains(e.target)) {
+    if (popup && !popup.contains(e.target)) {
       popup.classList.remove('open');
     }
+  });
+
+  // ——— Раскрытие карточек ———
+  document.querySelectorAll('.so-card:not(.so-card--empty) .so-card-header').forEach(function(header) {
+    header.addEventListener('click', function() {
+      const card = header.closest('.so-card');
+      const id = card.id;
+      const body = document.getElementById(id + '-body');
+      const arrow = document.getElementById(id + '-arrow');
+      const label = document.getElementById(id + '-label');
+      const isOpen = card.classList.toggle('so-open');
+
+      if (isOpen) {
+        body.style.maxHeight = body.scrollHeight + 'px';
+        arrow.style.transform = 'rotate(180deg)';
+        arrow.style.color = 'var(--fog)';
+        label.textContent = 'Свернуть';
+      } else {
+        body.style.maxHeight = '0';
+        arrow.style.transform = 'rotate(0deg)';
+        arrow.style.color = '';
+        label.textContent = 'Читать';
+      }
+    });
   });
 </script>
 
