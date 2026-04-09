@@ -19,7 +19,6 @@
   --danger: #b84040;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
 body {
   background: var(--bg);
   color: var(--text);
@@ -28,14 +27,11 @@ body {
   line-height: 1.75;
   min-height: 100vh;
 }
-
 .noise {
   position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.03;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 200px 200px;
 }
-
-/* Header */
 .header {
   position: sticky; top: 0; z-index: 100;
   background: rgba(10,10,14,0.94);
@@ -61,7 +57,6 @@ body {
 }
 .header-back:hover { color: var(--accent); border-color: var(--accent); }
 
-/* Main */
 .main { max-width: 860px; margin: 0 auto; padding: 4rem 2rem 6rem; position: relative; z-index: 1; }
 
 .page-eyebrow {
@@ -80,32 +75,35 @@ body {
   font-style: italic; color: var(--fog);
   font-size: 0.95rem; margin-bottom: 3rem;
 }
-
 .divider {
   width: 100%; height: 1px;
   background: linear-gradient(to right, var(--accent), transparent);
   margin-bottom: 2.5rem;
 }
 
-/* Translator box */
+/* Translator */
 .translator {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1.5rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
-@media (max-width: 640px) {
-  .translator { grid-template-columns: 1fr; }
-}
+@media (max-width: 640px) { .translator { grid-template-columns: 1fr; } }
 
-.t-panel {
-  display: flex; flex-direction: column; gap: 0.5rem;
-}
+.t-panel { display: flex; flex-direction: column; gap: 0.5rem; }
 .t-label {
   font-family: 'Unbounded', sans-serif;
   font-size: 0.6rem; letter-spacing: 0.2em;
   text-transform: uppercase; color: var(--text-dim);
+  display: flex; justify-content: space-between; align-items: center;
 }
+.t-counter {
+  font-size: 0.55rem; letter-spacing: 0.05em;
+  color: var(--text-dim); transition: color 0.2s;
+}
+.t-counter.warn { color: var(--accent); }
+.t-counter.over  { color: var(--danger); font-weight: bold; }
+
 .t-textarea {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -125,19 +123,28 @@ body {
   font-style: italic;
   cursor: default;
 }
+.t-textarea.error-border { border-color: var(--danger) !important; }
 .t-textarea::placeholder { color: var(--text-dim); font-style: italic; }
+
+/* Ошибка лимита */
+.t-error {
+  display: none;
+  font-family: 'Unbounded', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  color: var(--danger);
+  border: 1px solid var(--danger);
+  background: rgba(184,64,64,0.07);
+  padding: 1rem 1.25rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+}
+.t-error.visible { display: block; animation: fadeIn 0.2s ease; }
+@keyframes fadeIn { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:none; } }
 
 .t-actions {
   display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center;
 }
-.btn-translate {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 0.65rem; letter-spacing: 0.15em;
-  background: var(--accent); color: var(--bg);
-  border: none; padding: 0.75rem 2rem;
-  cursor: pointer; transition: opacity 0.2s;
-}
-.btn-translate:hover { opacity: 0.85; }
 .btn-clear {
   font-family: 'Unbounded', sans-serif;
   font-size: 0.65rem; letter-spacing: 0.1em;
@@ -158,10 +165,10 @@ body {
 
 .t-note {
   font-size: 0.78rem; color: var(--text-dim);
-  font-style: italic; margin-top: 0.5rem;
+  font-style: italic; margin-top: 0.75rem;
 }
 
-/* Rules mini block */
+/* Rules block */
 .rules-block {
   margin-top: 3rem;
   border: 1px solid var(--border);
@@ -175,9 +182,7 @@ body {
   text-transform: uppercase; color: var(--accent);
 }
 .rules-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0;
 }
 @media (max-width: 600px) { .rules-grid { grid-template-columns: 1fr; } }
 .rule-item {
@@ -187,7 +192,7 @@ body {
   font-size: 0.85rem;
 }
 .rule-item:nth-child(even) { border-right: none; }
-.rule-title { font-family: 'Unbounded', sans-serif; font-size: 0.6rem; color: var(--text-dim); margin-bottom: 0.3rem; }
+.rule-title { font-family: 'Unbounded', sans-serif; font-size: 0.58rem; color: var(--text-dim); margin-bottom: 0.3rem; letter-spacing: 0.05em; }
 .rule-example { color: var(--text-bright); }
 .rule-example span { color: var(--accent); font-style: italic; }
 
@@ -212,21 +217,29 @@ footer {
 <main class="main">
   <p class="page-eyebrow">Инструментность</p>
   <h1 class="page-title">Переводчик</h1>
-  <p class="page-sub">Русский → Муринский языкность</p>
+  <p class="page-sub">Русский → Муринский · автоматически при вводе</p>
   <div class="divider"></div>
+
+  <div class="t-error" id="limitError">
+    Ч не могу перевести текст: лимит символов за перевод превышен (600 символов).
+  </div>
 
   <div class="translator">
     <div class="t-panel">
-      <label class="t-label" for="inputText">Русский текст</label>
+      <label class="t-label" for="inputText">
+        Русский текст
+        <span class="t-counter" id="counter">0 / 600</span>
+      </label>
       <textarea
         class="t-textarea"
         id="inputText"
         placeholder="Введи текст на русском языке…"
-        oninput="autoTranslate()"
       ></textarea>
     </div>
     <div class="t-panel">
-      <label class="t-label" for="outputText">Муринский переводность</label>
+      <label class="t-label" for="outputText">
+        Муринский переводность
+      </label>
       <textarea
         class="t-textarea"
         id="outputText"
@@ -237,38 +250,37 @@ footer {
   </div>
 
   <div class="t-actions">
-    <button class="btn-translate" onclick="translate()">Перевести</button>
     <button class="btn-clear" onclick="clearAll()">Очистить</button>
     <button class="btn-copy" id="copyBtn" onclick="copyResult()">Скопировать</button>
   </div>
-  <p class="t-note">Переводчик работает по базовым правилам муринского языка. Некоторые слова могут требовать ручной правки.</p>
+  <p class="t-note">Переводчик меняет только существительные. Глаголы, прилагательные и служебные слова остаются как есть.</p>
 
   <div class="rules-block">
     <div class="rules-block-title">Как работает переводность</div>
     <div class="rules-grid">
       <div class="rule-item">
-        <div class="rule-title">Существительные</div>
-        <div class="rule-example">город → <span>городность</span></div>
+        <div class="rule-title">Существительные → меняются</div>
+        <div class="rule-example">город → <span>городность</span>, кот → <span>котость</span></div>
       </div>
       <div class="rule-item">
-        <div class="rule-title">Исключения (лор)</div>
-        <div class="rule-example">папа → <span>батч</span>, я → <span>ч</span></div>
+        <div class="rule-title">Лор-исключения</div>
+        <div class="rule-example">папа → <span>батч</span>, я → <span>ч</span>, друг → <span>друн</span></div>
       </div>
       <div class="rule-item">
-        <div class="rule-title">Глаголы</div>
-        <div class="rule-example">пошёл → <span>пошёл</span> (не меняется)</div>
+        <div class="rule-title">Глаголы → не трогаем</div>
+        <div class="rule-example">пошёл, смотрел, сказал — <span>без изменений</span></div>
       </div>
       <div class="rule-item">
-        <div class="rule-title">Города</div>
-        <div class="rule-example">Мурино → <span>Мурино</span> (не меняется)</div>
+        <div class="rule-title">Прилагательные → не трогаем</div>
+        <div class="rule-example">тихий, странный, холодный — <span>без изменений</span></div>
       </div>
       <div class="rule-item">
-        <div class="rule-title">Технические слова</div>
-        <div class="rule-example">компьютер → <span>компьютер</span></div>
+        <div class="rule-title">Города и имена → не трогаем</div>
+        <div class="rule-example">Мурино, Челябинск, Артур — <span>без изменений</span></div>
       </div>
       <div class="rule-item">
-        <div class="rule-title">Запрещено</div>
-        <div class="rule-example" style="color:var(--danger);">тамность, живёшьность ✗</div>
+        <div class="rule-title">Лимит</div>
+        <div class="rule-example">максимум <span>600 символов</span> за один перевод</div>
       </div>
     </div>
   </div>
@@ -279,164 +291,212 @@ footer {
 </footer>
 
 <script>
-// =============================================
-// Словарь исключений (лор)
-// =============================================
+const LIMIT = 600;
+
+// ================================================================
+// СЛОВАРЬ ИСКЛЮЧЕНИЙ (лор-слова)
+// Чтобы добавить новое слово: 'слово': 'перевод',
+// Чтобы убрать слово из замены: 'слово': 'слово',
+// ================================================================
 const EXCEPTIONS = {
-  'я': 'ч',
-  'папа': 'батч',
-  'мама': 'мамность',
-  'сын': 'сыр',
-  'дочь': 'дотч',
-  'брат': 'братч',
-  'сестра': 'сестрч',
-  'друг': 'друн',
+  'я':       'ч',
+  'папа':    'батч',
+  'мама':    'мамность',
+  'сын':     'сыр',
+  'дочь':    'дотч',
+  'брат':    'братч',
+  'сестра':  'сестрч',
+  'друг':    'друн',
   'подруга': 'подруня',
-  'дед': 'дод',
-  'прадед': 'прадод',
+  'дед':     'дод',
+  'прадед':  'прадод',
 };
 
-// Неизменяемые слова
-const UNCHANGED = new Set([
-  'компьютер','интернет','телевизор','панельные','бтр','the','fog',
+// ================================================================
+// ЧЁРНЫЙ СПИСОК — слова, которые НИКОГДА не переводятся.
+// Добавляй сюда любые слова, которые хочешь оставить как есть.
+// Всё в нижнем регистре. Формат: 'слово', 'слово', ...
+// ================================================================
+const BLACKLIST = new Set([
+  // Города и места
   'мурино','челябинск','мытищи','меднобыковск','пасхалск','молочное',
-  'витевка','солнце','москва','петербург','россия',
+  'витевка','москва','петербург','россия','элджеевка',
+  // Технические и иностранные
+  'компьютер','интернет','телевизор','бтр','the','fog',
+  // Имена персонажей
+  'артур','фердрун','меллстрой','друн',
+  // Короткие слова которые лучше не трогать
+  'вода','еда','ночь','день','свет','тень','путь','мир','бой',
+  // Служебные (на всякий случай дублируем)
+  'и','в','на','с','к','от','по','за','до','из','у','о','об',
+  'не','но','а','или','что','как','так','то','это','ещё','уже',
+  'тут','там','тогда','потом','если','когда','где','да','нет',
 ]);
 
-// Слова которые НЕ надо искажать (глаголы, служебные)
-const VERBS_ENDINGS = ['ать','ить','еть','уть','оть','ться','ться',
-  'ал','ила','ило','или','ел','ела','ли','ут','ют','ит','ат','ешь','ишь',
-  'аю','яю','уем','ием','ает','яет','ит','ет'];
+// ================================================================
+// ОКОНЧАНИЯ ГЛАГОЛОВ — слова с такими окончаниями не трогаем.
+// ================================================================
+const VERB_ENDS = [
+  'ать','ить','еть','уть','оть','ыть',
+  'ался','алась','ались','ался',
+  'ился','илась','ились',
+  'елся','елась','елись',
+  'ал','ала','ало','али',
+  'ил','ила','ило','или',
+  'ел','ела','ело','ели',
+  'ул','ула','ули',
+  'ют','ут','ит','ат','ет',
+  'аю','яю','ею','ую',
+  'ешь','ишь','ешься','ишься',
+  'уем','ием','аем','яем',
+  'ться','тся','ться',
+];
 
-const SERVICE = new Set([
-  'и','в','на','с','к','от','по','за','до','из','у','о','об','для',
-  'не','но','а','или','что','как','так','то','это','все','всё',
-  'уже','ещё','тут','там','тогда','потом','если','когда','где',
-  'он','она','оно','они','его','её','им','их','себя',
-  'был','была','было','были','есть','нет',
-]);
+// ================================================================
+// ОКОНЧАНИЯ ПРИЛАГАТЕЛЬНЫХ — не трогаем.
+// ================================================================
+const ADJ_ENDS = [
+  'ый','ий','ой','ая','яя','ое','ее',
+  'ого','его','ому','ему',
+  'ым','им','ых','их',
+  'ыми','ими',
+];
 
-// Окончания существительных (которые стоит трогать)
-const NOUN_ENDINGS = ['ие','ия','ие','ий','ья','ье','ей','ей','ев',
-  'а','у','е','и','ы','ом','ем','ой','ей','ых','их',
-  'ами','ями','ах','ях'];
+// ================================================================
+// ОКОНЧАНИЯ СУЩЕСТВИТЕЛЬНЫХ — снимаем перед добавлением суффикса.
+// ================================================================
+const NOUN_STRIP = [
+  'ями','ами','ией','ией','ений','аний',
+  'ию','ия','ие','ий','ей','ев',
+  'ах','ях','ях',
+  'ом','ем','ой','ей',
+  'ую','юю',
+  'ам','ям',
+];
 
-function isVerb(word) {
-  const w = word.toLowerCase();
-  for (const end of VERBS_ENDINGS) {
-    if (w.endsWith(end) && w.length > end.length + 1) return true;
+function isVerb(w) {
+  for (const e of VERB_ENDS) {
+    if (w.endsWith(e) && w.length > e.length + 2) return true;
   }
   return false;
 }
 
-function isUnchanged(word) {
-  return UNCHANGED.has(word.toLowerCase());
+function isAdj(w) {
+  for (const e of ADJ_ENDS) {
+    if (w.endsWith(e) && w.length > e.length + 2) return true;
+  }
+  return false;
 }
 
-function isService(word) {
-  return SERVICE.has(word.toLowerCase());
-}
-
-function isException(word) {
-  return EXCEPTIONS[word.toLowerCase()] !== undefined;
-}
-
-function stripNounEnding(word) {
-  const w = word.toLowerCase();
-  // Сортируем по длине — сначала длинные окончания
-  const sorted = [...NOUN_ENDINGS].sort((a,b) => b.length - a.length);
-  for (const end of sorted) {
-    if (w.endsWith(end) && w.length > end.length + 2) {
-      return word.slice(0, word.length - end.length);
+function stripNoun(word) {
+  const sorted = [...NOUN_STRIP].sort((a, b) => b.length - a.length);
+  for (const e of sorted) {
+    if (word.endsWith(e) && word.length > e.length + 2) {
+      return word.slice(0, word.length - e.length);
     }
   }
   return word;
 }
 
 function addSuffix(root) {
-  const r = root.toLowerCase();
-  // Выбираем -ность или -ость по последней букве корня
-  const softConsonants = ['ж','ш','щ','ч','й','ь'];
-  const vowels = ['а','е','ё','и','о','у','ы','э','ю','я'];
-  const last = r[r.length - 1];
-  if (vowels.includes(last)) {
-    return root + 'сть';
-  } else if (softConsonants.includes(last)) {
-    return root + 'ость';
-  } else {
-    // чередуем для разнообразия по длине слова
-    return root.length % 2 === 0 ? root + 'ность' : root + 'ость';
-  }
+  const last = root[root.length - 1].toLowerCase();
+  const vowels = new Set(['а','е','ё','и','о','у','ы','э','ю','я']);
+  if (vowels.has(last)) return root + 'сть';
+  if (['ж','ш','щ','ч'].includes(last)) return root + 'ость';
+  return root.length % 2 === 0 ? root + 'ность' : root + 'ость';
 }
 
-function translateWord(word) {
-  if (!word || word.trim() === '') return word;
+function translateWord(token) {
+  // Оставляем пунктуацию как есть
+  const m = token.match(/^([^а-яёА-ЯЁ]*)([а-яёА-ЯЁ]+)([^а-яёА-ЯЁ]*)$/);
+  if (!m) return token;
+  const [, pre, core, post] = m;
+  const low = core.toLowerCase();
+  const isCap = core[0] === core[0].toUpperCase() && /[А-ЯЁ]/.test(core[0]);
 
-  // Сохраняем пунктуацию вокруг слова
-  const match = word.match(/^([^а-яёА-ЯЁa-zA-Z0-9]*)([а-яёА-ЯЁa-zA-Z0-9'-]+)([^а-яёА-ЯЁa-zA-Z0-9]*)$/);
-  if (!match) return word;
+  // 1. Чёрный список
+  if (BLACKLIST.has(low)) return token;
 
-  const [, pre, core, post] = match;
-  const lower = core.toLowerCase();
-  const isCapital = core[0] === core[0].toUpperCase() && core[0] !== core[0].toLowerCase();
-
-  // 1. Исключение-лор
-  if (isException(lower)) {
-    const exc = EXCEPTIONS[lower];
-    return pre + (isCapital ? exc[0].toUpperCase() + exc.slice(1) : exc) + post;
+  // 2. Лор-исключение
+  if (EXCEPTIONS[low] !== undefined) {
+    const exc = EXCEPTIONS[low];
+    return pre + (isCap ? exc[0].toUpperCase() + exc.slice(1) : exc) + post;
   }
 
-  // 2. Неизменяемые
-  if (isUnchanged(lower)) return word;
+  // 3. Слишком короткое — не трогаем (≤3 букв)
+  if (core.length <= 3) return token;
 
-  // 3. Служебные слова
-  if (isService(lower)) return word;
+  // 4. Уже имеет муринский суффикс
+  if (low.endsWith('ость') || low.endsWith('ность') || low.endsWith('сть')) return token;
 
-  // 4. Глаголы — не трогаем
-  if (isVerb(lower)) return word;
+  // 5. Глагол → пропускаем
+  if (isVerb(low)) return token;
 
-  // 5. Короткие слова (до 3 букв) — не трогаем
-  if (core.length <= 3) return word;
+  // 6. Прилагательное → пропускаем
+  if (isAdj(low)) return token;
 
-  // 6. Уже заканчивается на -ость/-ность/-сть — не дублируем
-  if (lower.endsWith('ость') || lower.endsWith('ность') || lower.endsWith('сть')) return word;
-
-  // 7. Применяем — снимаем падежное окончание, добавляем суффикс
-  const root = stripNounEnding(core);
+  // 7. Существительное → переводим
+  const root = stripNoun(core);
   const result = addSuffix(root);
-
-  return pre + (isCapital ? result[0].toUpperCase() + result.slice(1) : result) + post;
+  return pre + (isCap ? result[0].toUpperCase() + result.slice(1) : result) + post;
 }
 
 function translateText(text) {
-  if (!text.trim()) return '';
-  // Разбиваем по пробелам, сохраняя переносы строк
-  const lines = text.split('\n');
-  return lines.map(line => {
-    const words = line.split(/(\s+)/);
-    return words.map(w => /^\s+$/.test(w) ? w : translateWord(w)).join('');
-  }).join('\n');
+  // Разбиваем на токены: слова + пробелы + знаки
+  const tokens = text.split(/(\s+)/);
+  return tokens.map(t => /^\s+$/.test(t) ? t : translateWord(t)).join('');
 }
 
-function translate() {
-  const input = document.getElementById('inputText').value;
-  document.getElementById('outputText').value = translateText(input);
-}
+// ——— Основная логика ———
+const inputEl   = document.getElementById('inputText');
+const outputEl  = document.getElementById('outputText');
+const counterEl = document.getElementById('counter');
+const errorEl   = document.getElementById('limitError');
 
-function autoTranslate() {
-  const input = document.getElementById('inputText').value;
-  if (input.length < 200) translate();
-}
+inputEl.addEventListener('input', function() {
+  const len = inputEl.value.length;
+  counterEl.textContent = len + ' / ' + LIMIT;
+
+  if (len === 0) {
+    counterEl.className = 't-counter';
+    errorEl.classList.remove('visible');
+    inputEl.classList.remove('error-border');
+    outputEl.value = '';
+    return;
+  }
+
+  if (len > LIMIT) {
+    counterEl.className = 't-counter over';
+    errorEl.classList.add('visible');
+    inputEl.classList.add('error-border');
+    outputEl.value = '';
+    return;
+  }
+
+  if (len > LIMIT * 0.8) {
+    counterEl.className = 't-counter warn';
+  } else {
+    counterEl.className = 't-counter';
+  }
+
+  errorEl.classList.remove('visible');
+  inputEl.classList.remove('error-border');
+  outputEl.value = translateText(inputEl.value);
+});
 
 function clearAll() {
-  document.getElementById('inputText').value = '';
-  document.getElementById('outputText').value = '';
+  inputEl.value = '';
+  outputEl.value = '';
+  counterEl.textContent = '0 / ' + LIMIT;
+  counterEl.className = 't-counter';
+  errorEl.classList.remove('visible');
+  inputEl.classList.remove('error-border');
 }
 
 function copyResult() {
-  const output = document.getElementById('outputText').value;
-  if (!output) return;
-  navigator.clipboard.writeText(output).then(() => {
+  const out = outputEl.value;
+  if (!out) return;
+  navigator.clipboard.writeText(out).then(() => {
     const btn = document.getElementById('copyBtn');
     btn.textContent = 'Скопировано ✓';
     btn.classList.add('copied');
@@ -449,5 +509,4 @@ function copyResult() {
 </script>
 
 </body>
-          </html>
-  
+</html>
