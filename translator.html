@@ -7,208 +7,77 @@
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700;900&family=Spectral:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0a0a0e;
-  --bg2: #10101a;
-  --surface: #14141f;
-  --border: #2a2a3e;
-  --accent: #c8a85a;
-  --fog: #6b8fa8;
-  --text: #d8d4c8;
-  --text-dim: #7a7870;
-  --text-bright: #f0ead8;
-  --danger: #b84040;
+  --bg:#0a0a0e; --bg2:#10101a; --surface:#14141f; --border:#2a2a3e;
+  --accent:#c8a85a; --fog:#6b8fa8; --text:#d8d4c8;
+  --text-dim:#7a7870; --text-bright:#f0ead8; --danger:#b84040;
 }
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Spectral', Georgia, serif;
-  font-size: 17px;
-  line-height: 1.75;
-  min-height: 100vh;
-}
-.noise {
-  position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.03;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 200px 200px;
-}
-.header {
-  position: sticky; top: 0; z-index: 100;
-  background: rgba(10,10,14,0.94);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
-  padding: 0 2rem;
-  height: 60px;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.header-logo {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 0.8rem; font-weight: 900;
-  letter-spacing: 0.2em; color: var(--text-bright);
-  text-decoration: none;
-}
-.header-logo span { color: var(--accent); }
-.header-back {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 0.6rem; letter-spacing: 0.1em;
-  color: var(--text-dim); text-decoration: none;
-  border: 1px solid var(--border); padding: 0.35rem 0.85rem;
-  transition: all 0.2s;
-}
-.header-back:hover { color: var(--accent); border-color: var(--accent); }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Spectral',Georgia,serif;font-size:17px;line-height:1.75;min-height:100vh;}
+.noise{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.03;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:200px 200px;}
+.header{position:sticky;top:0;z-index:100;background:rgba(10,10,14,0.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;}
+.header-logo{font-family:'Unbounded',sans-serif;font-size:0.8rem;font-weight:900;letter-spacing:0.2em;color:var(--text-bright);text-decoration:none;}
+.header-logo span{color:var(--accent);}
+.header-back{font-family:'Unbounded',sans-serif;font-size:0.6rem;letter-spacing:0.1em;color:var(--text-dim);text-decoration:none;border:1px solid var(--border);padding:0.35rem 0.85rem;transition:all 0.2s;}
+.header-back:hover{color:var(--accent);border-color:var(--accent);}
+.main{max-width:900px;margin:0 auto;padding:4rem 2rem 6rem;position:relative;z-index:1;}
+.page-eyebrow{font-family:'Unbounded',sans-serif;font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;}
+.page-title{font-family:'Unbounded',sans-serif;font-size:clamp(2rem,6vw,3.5rem);font-weight:900;color:var(--text-bright);letter-spacing:-0.03em;line-height:1;margin-bottom:0.75rem;}
+.page-sub{font-style:italic;color:var(--fog);font-size:0.95rem;margin-bottom:2rem;}
+.divider{width:100%;height:1px;background:linear-gradient(to right,var(--accent),transparent);margin-bottom:2rem;}
 
-.main { max-width: 860px; margin: 0 auto; padding: 4rem 2rem 6rem; position: relative; z-index: 1; }
+/* Режимы */
+.mode-row{display:flex;gap:0.5rem;margin-bottom:1.5rem;flex-wrap:wrap;}
+.mode-btn{font-family:'Unbounded',sans-serif;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.5rem 1.1rem;border:1px solid var(--border);background:transparent;color:var(--text-dim);cursor:pointer;transition:all 0.2s;border-radius:2px;}
+.mode-btn:hover{border-color:var(--accent);color:var(--accent);}
+.mode-btn.active{background:var(--accent);color:var(--bg);border-color:var(--accent);}
+.mode-desc{font-size:0.78rem;color:var(--text-dim);font-style:italic;margin-bottom:1.5rem;min-height:1.4em;transition:opacity 0.2s;}
 
-.page-eyebrow {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 0.6rem; letter-spacing: 0.3em;
-  text-transform: uppercase; color: var(--accent); margin-bottom: 1rem;
-}
-.page-title {
-  font-family: 'Unbounded', sans-serif;
-  font-size: clamp(2rem, 6vw, 3.5rem);
-  font-weight: 900; color: var(--text-bright);
-  letter-spacing: -0.03em; line-height: 1;
-  margin-bottom: 0.75rem;
-}
-.page-sub {
-  font-style: italic; color: var(--fog);
-  font-size: 0.95rem; margin-bottom: 3rem;
-}
-.divider {
-  width: 100%; height: 1px;
-  background: linear-gradient(to right, var(--accent), transparent);
-  margin-bottom: 2.5rem;
-}
+/* Поля */
+.translator{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1rem;}
+@media(max-width:640px){.translator{grid-template-columns:1fr;}}
+.t-panel{display:flex;flex-direction:column;gap:0.5rem;}
+.t-label{font-family:'Unbounded',sans-serif;font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-dim);display:flex;justify-content:space-between;align-items:center;}
+.t-counter{font-size:0.55rem;letter-spacing:0.05em;color:var(--text-dim);transition:color 0.2s;}
+.t-counter.warn{color:var(--accent);}
+.t-counter.over{color:var(--danger);font-weight:bold;}
+.t-textarea{background:var(--surface);border:1px solid var(--border);color:var(--text-bright);font-family:'Spectral',serif;font-size:1rem;line-height:1.75;padding:1.25rem;resize:vertical;min-height:240px;outline:none;transition:border-color 0.2s;width:100%;}
+.t-textarea:focus{border-color:var(--accent);}
+.t-textarea[readonly]{color:var(--accent);font-style:italic;cursor:default;}
+.t-textarea.err-border{border-color:var(--danger)!important;}
+.t-textarea::placeholder{color:var(--text-dim);font-style:italic;}
 
-/* Translator */
-.translator {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-  margin-bottom: 1rem;
-}
-@media (max-width: 640px) { .translator { grid-template-columns: 1fr; } }
+/* Ошибки */
+.t-error{display:none;font-family:'Unbounded',sans-serif;font-size:0.68rem;letter-spacing:0.04em;color:var(--danger);border:1px solid var(--danger);background:rgba(184,64,64,0.07);padding:1rem 1.25rem;margin-bottom:0.75rem;line-height:1.7;}
+.t-error.visible{display:block;animation:fadeIn 0.2s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:none;}}
 
-.t-panel { display: flex; flex-direction: column; gap: 0.5rem; }
-.t-label {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 0.6rem; letter-spacing: 0.2em;
-  text-transform: uppercase; color: var(--text-dim);
-  display: flex; justify-content: space-between; align-items: center;
-}
-.t-counter {
-  font-size: 0.55rem; letter-spacing: 0.05em;
-  color: var(--text-dim); transition: color 0.2s;
-}
-.t-counter.warn { color: var(--accent); }
-.t-counter.over  { color: var(--danger); font-weight: bold; }
+.t-actions{display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;}
+.btn-clear,.btn-copy{font-family:'Unbounded',sans-serif;font-size:0.65rem;letter-spacing:0.1em;background:transparent;border:1px solid var(--border);padding:0.75rem 1.25rem;cursor:pointer;transition:all 0.2s;}
+.btn-clear{color:var(--text-dim);}
+.btn-clear:hover{color:var(--danger);border-color:var(--danger);}
+.btn-copy{color:var(--text-dim);margin-left:auto;}
+.btn-copy:hover,.btn-copy.copied{color:var(--accent);border-color:var(--accent);}
+.t-note{font-size:0.78rem;color:var(--text-dim);font-style:italic;margin-top:0.75rem;}
 
-.t-textarea {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  color: var(--text-bright);
-  font-family: 'Spectral', serif;
-  font-size: 1rem; line-height: 1.75;
-  padding: 1.25rem;
-  resize: vertical;
-  min-height: 220px;
-  outline: none;
-  transition: border-color 0.2s;
-  width: 100%;
-}
-.t-textarea:focus { border-color: var(--accent); }
-.t-textarea[readonly] {
-  color: var(--accent);
-  font-style: italic;
-  cursor: default;
-}
-.t-textarea.error-border { border-color: var(--danger) !important; }
-.t-textarea::placeholder { color: var(--text-dim); font-style: italic; }
+/* Справочник */
+.ref-block{margin-top:3rem;border:1px solid var(--border);background:var(--surface);}
+.ref-title{padding:1rem 1.5rem;border-bottom:1px solid var(--border);font-family:'Unbounded',sans-serif;font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);}
+.ref-grid{display:grid;grid-template-columns:1fr 1fr;}
+@media(max-width:600px){.ref-grid{grid-template-columns:1fr;}}
+.ref-item{padding:0.9rem 1.5rem;border-bottom:1px solid var(--border);border-right:1px solid var(--border);font-size:0.82rem;}
+.ref-item:nth-child(even){border-right:none;}
+.ref-item-title{font-family:'Unbounded',sans-serif;font-size:0.57rem;color:var(--text-dim);margin-bottom:0.25rem;letter-spacing:0.05em;}
+.ref-item-ex{color:var(--text-bright);}
+.ref-item-ex span{color:var(--accent);font-style:italic;}
+.ref-item-ex .no{color:var(--danger);}
 
-/* Ошибка лимита */
-.t-error {
-  display: none;
-  font-family: 'Unbounded', sans-serif;
-  font-size: 0.7rem;
-  letter-spacing: 0.05em;
-  color: var(--danger);
-  border: 1px solid var(--danger);
-  background: rgba(184,64,64,0.07);
-  padding: 1rem 1.25rem;
-  margin-bottom: 0.75rem;
-  line-height: 1.6;
-}
-.t-error.visible { display: block; animation: fadeIn 0.2s ease; }
-@keyframes fadeIn { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:none; } }
-
-.t-actions {
-  display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center;
-}
-.btn-clear {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 0.65rem; letter-spacing: 0.1em;
-  background: transparent; color: var(--text-dim);
-  border: 1px solid var(--border); padding: 0.75rem 1.25rem;
-  cursor: pointer; transition: all 0.2s;
-}
-.btn-clear:hover { color: var(--danger); border-color: var(--danger); }
-.btn-copy {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 0.65rem; letter-spacing: 0.1em;
-  background: transparent; color: var(--text-dim);
-  border: 1px solid var(--border); padding: 0.75rem 1.25rem;
-  cursor: pointer; transition: all 0.2s; margin-left: auto;
-}
-.btn-copy:hover { color: var(--accent); border-color: var(--accent); }
-.btn-copy.copied { color: var(--accent); border-color: var(--accent); }
-
-.t-note {
-  font-size: 0.78rem; color: var(--text-dim);
-  font-style: italic; margin-top: 0.75rem;
-}
-
-/* Rules block */
-.rules-block {
-  margin-top: 3rem;
-  border: 1px solid var(--border);
-  background: var(--surface);
-}
-.rules-block-title {
-  padding: 1rem 1.5rem;
-  border-bottom: 1px solid var(--border);
-  font-family: 'Unbounded', sans-serif;
-  font-size: 0.6rem; letter-spacing: 0.2em;
-  text-transform: uppercase; color: var(--accent);
-}
-.rules-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 0;
-}
-@media (max-width: 600px) { .rules-grid { grid-template-columns: 1fr; } }
-.rule-item {
-  padding: 1rem 1.5rem;
-  border-bottom: 1px solid var(--border);
-  border-right: 1px solid var(--border);
-  font-size: 0.85rem;
-}
-.rule-item:nth-child(even) { border-right: none; }
-.rule-title { font-family: 'Unbounded', sans-serif; font-size: 0.58rem; color: var(--text-dim); margin-bottom: 0.3rem; letter-spacing: 0.05em; }
-.rule-example { color: var(--text-bright); }
-.rule-example span { color: var(--accent); font-style: italic; }
-
-footer {
-  border-top: 1px solid var(--border);
-  padding: 1.5rem 2rem;
-  text-align: center;
-  font-family: 'Unbounded', sans-serif;
-  font-size: 0.6rem; letter-spacing: 0.15em; color: var(--text-dim);
-  position: relative; z-index: 1;
-}
+footer{border-top:1px solid var(--border);padding:1.5rem 2rem;text-align:center;font-family:'Unbounded',sans-serif;font-size:0.6rem;letter-spacing:0.15em;color:var(--text-dim);position:relative;z-index:1;}
 </style>
 </head>
 <body>
 <div class="noise"></div>
-
 <header class="header">
   <a class="header-logo" href="index.html">⌬ <span>ДРУН</span></a>
   <a class="header-back" href="glossary.html">← Словность</a>
@@ -217,35 +86,30 @@ footer {
 <main class="main">
   <p class="page-eyebrow">Инструментность</p>
   <h1 class="page-title">Переводчик</h1>
-  <p class="page-sub">Русский → Муринский · автоматически при вводе</p>
+  <p class="page-sub">Русский → Муринский · перевод при вводе</p>
   <div class="divider"></div>
 
-  <div class="t-error" id="limitError">
-    Ч не могу перевести текст: лимит символов за перевод превышен (600 символов).
+  <!-- Режимы -->
+  <div class="mode-row">
+    <button class="mode-btn" data-mode="light" onclick="setMode('light')">Поверхностный</button>
+    <button class="mode-btn active" data-mode="normal" onclick="setMode('normal')">Читаемый (Рекомендуемый)</button>
+    <button class="mode-btn" data-mode="heavy" onclick="setMode('heavy')">Глубокий</button>
   </div>
+  <div class="mode-desc" id="modeDesc">40–50% слов меняются. Сохраняется читаемость.</div>
+
+  <div class="t-error" id="limitError"></div>
 
   <div class="translator">
     <div class="t-panel">
       <label class="t-label" for="inputText">
         Русский текст
-        <span class="t-counter" id="counter">0 / 600</span>
+        <span class="t-counter" id="counter">0 / 1500</span>
       </label>
-      <textarea
-        class="t-textarea"
-        id="inputText"
-        placeholder="Введи текст на русском языке…"
-      ></textarea>
+      <textarea class="t-textarea" id="inputText" placeholder="Введи текст на русском языке…"></textarea>
     </div>
     <div class="t-panel">
-      <label class="t-label" for="outputText">
-        Муринский переводность
-      </label>
-      <textarea
-        class="t-textarea"
-        id="outputText"
-        readonly
-        placeholder="Здесь появится переводность…"
-      ></textarea>
+      <label class="t-label" for="outputText">Муринский переводность</label>
+      <textarea class="t-textarea" id="outputText" readonly placeholder="Здесь появится переводность…"></textarea>
     </div>
   </div>
 
@@ -253,53 +117,71 @@ footer {
     <button class="btn-clear" onclick="clearAll()">Очистить</button>
     <button class="btn-copy" id="copyBtn" onclick="copyResult()">Скопировать</button>
   </div>
-  <p class="t-note">Переводчик меняет только существительные. Глаголы, прилагательные и служебные слова остаются как есть.</p>
+  <p class="t-note">Меняются только существительные. Глаголы, прилагательные и служебные слова не трогаются.</p>
 
-  <div class="rules-block">
-    <div class="rules-block-title">Как работает переводность</div>
-    <div class="rules-grid">
-      <div class="rule-item">
-        <div class="rule-title">Существительные → меняются</div>
-        <div class="rule-example">город → <span>городность</span>, кот → <span>котость</span></div>
+  <div class="ref-block">
+    <div class="ref-title">Справочность — как работает переводчик</div>
+    <div class="ref-grid">
+      <div class="ref-item">
+        <div class="ref-item-title">Существительные → меняются</div>
+        <div class="ref-item-ex">город → <span>городность</span>, туман → <span>туманность</span></div>
       </div>
-      <div class="rule-item">
-        <div class="rule-title">Лор-исключения</div>
-        <div class="rule-example">папа → <span>батч</span>, я → <span>ч</span>, друг → <span>друн</span></div>
+      <div class="ref-item">
+        <div class="ref-item-title">Лор-исключения</div>
+        <div class="ref-item-ex">я → <span>ч</span>, папа → <span>батч</span>, друг → <span>друн</span></div>
       </div>
-      <div class="rule-item">
-        <div class="rule-title">Глаголы → не трогаем</div>
-        <div class="rule-example">пошёл, смотрел, сказал — <span>без изменений</span></div>
+      <div class="ref-item">
+        <div class="ref-item-title">Глаголы → не трогаем</div>
+        <div class="ref-item-ex"><span class="no">пошёл, сказал, был</span> — без изменений</div>
       </div>
-      <div class="rule-item">
-        <div class="rule-title">Прилагательные → не трогаем</div>
-        <div class="rule-example">тихий, странный, холодный — <span>без изменений</span></div>
+      <div class="ref-item">
+        <div class="ref-item-title">Чёрный список</div>
+        <div class="ref-item-ex"><span class="no">кровь, дверь, машина, хлеб</span> — без изменений</div>
       </div>
-      <div class="rule-item">
-        <div class="rule-title">Города и имена → не трогаем</div>
-        <div class="rule-example">Мурино, Челябинск, Артур — <span>без изменений</span></div>
+      <div class="ref-item">
+        <div class="ref-item-title">Латиница → ошибка</div>
+        <div class="ref-item-ex"><span class="no">текст с латинскими буквами</span> — не переводится</div>
       </div>
-      <div class="rule-item">
-        <div class="rule-title">Лимит</div>
-        <div class="rule-example">максимум <span>600 символов</span> за один перевод</div>
+      <div class="ref-item">
+        <div class="ref-item-title">Лимит</div>
+        <div class="ref-item-ex">максимум <span>1500 символов</span> за один перевод</div>
       </div>
     </div>
   </div>
 </main>
 
-<footer>
-  Великая Эщкерия · муринский языкность · переводчик
-</footer>
+<footer>Великая Эщкерия · муринский языкность · переводчик</footer>
 
 <script>
-const LIMIT = 600;
+const LIMIT = 1500;
+let currentMode = 'normal';
 
 // ================================================================
-// СЛОВАРЬ ИСКЛЮЧЕНИЙ (лор-слова)
-// Чтобы добавить новое слово: 'слово': 'перевод',
-// Чтобы убрать слово из замены: 'слово': 'слово',
+// РЕЖИМЫ: вероятность изменить слово
+// ================================================================
+const MODE_PROB = { light: 0.35, normal: 0.55, heavy: 0.85 };
+const MODE_DESC = {
+  light:  'Минимум изменений — только самые очевидные слова.',
+  normal: '40–50% слов меняются. Сохраняется читаемость.',
+  heavy:  'Почти все существительные меняются. Текст ломается атмосферно.'
+};
+
+function setMode(m) {
+  currentMode = m;
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === m));
+  document.getElementById('modeDesc').textContent = MODE_DESC[m];
+  reTranslate();
+}
+
+// ================================================================
+// ЛОР-ИСКЛЮЧЕНИЯ — заменяются всегда точно
 // ================================================================
 const EXCEPTIONS = {
   'я':       'ч',
+  'меня':    'менч',
+  'мне':     'мнч',
+  'тебя':    'тя',
+  'тебе':    'тебч',
   'папа':    'батч',
   'мама':    'мамность',
   'сын':     'сыр',
@@ -313,70 +195,101 @@ const EXCEPTIONS = {
 };
 
 // ================================================================
-// ЧЁРНЫЙ СПИСОК — слова, которые НИКОГДА не переводятся.
-// Добавляй сюда любые слова, которые хочешь оставить как есть.
-// Всё в нижнем регистре. Формат: 'слово', 'слово', ...
+// ЧЁРНЫЙ СПИСОК — никогда не переводить.
+// Добавляй слова сюда: 'слово',
+// Всё в нижнем регистре.
 // ================================================================
 const BLACKLIST = new Set([
-  // Города и места
-  'мурино','челябинск','мытищи','меднобыковск','пасхалск','молочное',
+  // Города и лор
+  'мурино','челябинск','мытищи','меднобыковск','пасхалск',
   'витевка','москва','петербург','россия','элджеевка',
-  // Технические и иностранные
-  'компьютер','интернет','телевизор','бтр','the','fog',
   // Имена персонажей
-  'артур','фердрун','меллстрой','друн',
-  // Короткие слова которые лучше не трогать
-  'вода','еда','ночь','день','свет','тень','путь','мир','бой',
-  // Служебные (на всякий случай дублируем)
-  'и','в','на','с','к','от','по','за','до','из','у','о','об',
-  'не','но','а','или','что','как','так','то','это','ещё','уже',
-  'тут','там','тогда','потом','если','когда','где','да','нет',
+  'артур','фердрун','меллстрой','друн','ч',
+  // Заимствованные / неизменяемые
+  'такси','метро','кафе','меню','интернет','компьютер',
+  'ноутбук','сервер','код','пальто','радио','кино','фото',
+  'видео','кофе','бюро','депо','табло',
+  // Плохо ломаются
+  'кровь','любовь','тень','ночь','огонь',
+  // Конкретные предметы (по умолчанию не трогаем)
+  'машина','телефон','ракета','стол','стул','хлеб','суп',
+  // Технические
+  'бтр',
+  // Местоимения (оставляем как есть, кроме лор-исключений)
+  'ты','он','она','мы','вы','они','нас','их',
+  'его','её','им','ним','них','ей','ими','ему',
+  // Служебные дублируем
+  'и','в','на','с','к','от','по','за','до','из','у',
+  'о','об','при','или','но','а','что','как','так',
+  'это','ещё','уже','тут','там','тогда','потом',
+  'если','когда','где','да','нет','ни',
+  'со','во','ко','из-за','из-под',
 ]);
 
 // ================================================================
-// ОКОНЧАНИЯ ГЛАГОЛОВ — слова с такими окончаниями не трогаем.
+// ГЛАГОЛЬНЫЕ ОКОНЧАНИЯ — слова с такими окончаниями не трогаем
 // ================================================================
 const VERB_ENDS = [
-  'ать','ить','еть','уть','оть','ыть',
-  'ался','алась','ались','ался',
-  'ился','илась','ились',
-  'елся','елась','елись',
-  'ал','ала','ало','али',
-  'ил','ила','ило','или',
-  'ел','ела','ело','ели',
-  'ул','ула','ули',
-  'ют','ут','ит','ат','ет',
-  'аю','яю','ею','ую',
-  'ешь','ишь','ешься','ишься',
-  'уем','ием','аем','яем',
-  'ться','тся','ться',
+  'ать','ить','еть','уть','оть','ыть','ться','тся',
+  'ался','алась','ались','ился','илась','ились',
+  'елся','елась','елись','улся','улась','улись',
+  'ал','ала','ало','али','ил','ила','ило','или',
+  'ел','ела','ело','ели','ул','ула','ули',
+  'ют','ут','ит','ат','ет','аю','яю','ею','ую',
+  'ешь','ишь','ешься','ишься','итесь','етесь',
+  'аем','яем','уем','ием',
 ];
 
 // ================================================================
-// ОКОНЧАНИЯ ПРИЛАГАТЕЛЬНЫХ — не трогаем.
+// ПРИЛАГАТЕЛЬНЫЕ — окончания, при которых не трогаем
 // ================================================================
 const ADJ_ENDS = [
   'ый','ий','ой','ая','яя','ое','ее',
   'ого','его','ому','ему',
-  'ым','им','ых','их',
-  'ыми','ими',
+  'ым','им','ых','их','ыми','ими',
+  'ую','юю',
 ];
 
 // ================================================================
-// ОКОНЧАНИЯ СУЩЕСТВИТЕЛЬНЫХ — снимаем перед добавлением суффикса.
+// ОКОНЧАНИЯ СУЩЕСТВИТЕЛЬНЫХ — снимаем перед суффиксом
 // ================================================================
 const NOUN_STRIP = [
-  'ями','ами','ией','ией','ений','аний',
+  'ями','ами','ией','ений','аний',
   'ию','ия','ие','ий','ей','ев',
-  'ах','ях','ях',
-  'ом','ем','ой','ей',
-  'ую','юю',
+  'ах','ях','ом','ем','ой','ей',
   'ам','ям',
 ];
 
+// ================================================================
+// ПРАВИЛА ОКОНЧАНИЙ КОРНЯ → суффикс
+// а → ность, о → сть, ь → ность, остальное → ность/ость
+// ================================================================
+function addSuffix(root) {
+  const last = root[root.length - 1].toLowerCase();
+  if (last === 'а' || last === 'я') return root.slice(0,-1) + 'ность';
+  if (last === 'о')                  return root.slice(0,-1) + 'ость';
+  if (last === 'ь')                  return root.slice(0,-1) + 'ность';
+  // е, у, ы, э, ю, и, ё → не трогаем (вернём оригинал)
+  if ('еуыэюиё'.includes(last))     return null;
+  // согласная → ость или ность по чётности длины
+  const harsh = new Set(['ж','ш','щ','ч']);
+  if (harsh.has(last)) return root + 'ость';
+  return root.length % 2 === 0 ? root + 'ность' : root + 'ость';
+}
+
+function stripNoun(word) {
+  const sorted = [...NOUN_STRIP].sort((a,b) => b.length - a.length);
+  for (const e of sorted) {
+    if (word.toLowerCase().endsWith(e) && word.length > e.length + 2) {
+      return word.slice(0, word.length - e.length);
+    }
+  }
+  return word;
+}
+
 function isVerb(w) {
   for (const e of VERB_ENDS) {
-    if (w.endsWith(e) && w.length > e.length + 2) return true;
+    if (w.endsWith(e) && w.length > e.length + 1) return true;
   }
   return false;
 }
@@ -388,109 +301,110 @@ function isAdj(w) {
   return false;
 }
 
-function stripNoun(word) {
-  const sorted = [...NOUN_STRIP].sort((a, b) => b.length - a.length);
-  for (const e of sorted) {
-    if (word.endsWith(e) && word.length > e.length + 2) {
-      return word.slice(0, word.length - e.length);
-    }
-  }
-  return word;
-}
-
-function addSuffix(root) {
-  const last = root[root.length - 1].toLowerCase();
-  const vowels = new Set(['а','е','ё','и','о','у','ы','э','ю','я']);
-  if (vowels.has(last)) return root + 'сть';
-  if (['ж','ш','щ','ч'].includes(last)) return root + 'ость';
-  return root.length % 2 === 0 ? root + 'ность' : root + 'ость';
-}
-
-function translateWord(token) {
-  // Оставляем пунктуацию как есть
+// ================================================================
+// Перевод одного слова
+// ================================================================
+function translateWord(token, prob) {
+  // Разбиваем на: [пунктуация перед][слово][пунктуация после]
   const m = token.match(/^([^а-яёА-ЯЁ]*)([а-яёА-ЯЁ]+)([^а-яёА-ЯЁ]*)$/);
   if (!m) return token;
   const [, pre, core, post] = m;
   const low = core.toLowerCase();
-  const isCap = core[0] === core[0].toUpperCase() && /[А-ЯЁ]/.test(core[0]);
+  const isCap = /^[А-ЯЁ]/.test(core);
 
-  // 1. Чёрный список
-  if (BLACKLIST.has(low)) return token;
-
-  // 2. Лор-исключение
-  if (EXCEPTIONS[low] !== undefined) {
-    const exc = EXCEPTIONS[low];
-    return pre + (isCap ? exc[0].toUpperCase() + exc.slice(1) : exc) + post;
+  function wrap(result) {
+    return pre + (isCap ? result[0].toUpperCase() + result.slice(1) : result) + post;
   }
 
-  // 3. Слишком короткое — не трогаем (≤3 букв)
-  if (core.length <= 3) return token;
+  // 1. Чёрный список → оставляем
+  if (BLACKLIST.has(low)) return token;
 
-  // 4. Уже имеет муринский суффикс
+  // 2. Лор-исключение → всегда заменяем
+  if (EXCEPTIONS[low] !== undefined) return wrap(EXCEPTIONS[low]);
+
+  // 3. Слишком короткое (< 4 букв)
+  if (core.length < 4) return token;
+
+  // 4. Уже муринский суффикс → не трогаем
   if (low.endsWith('ость') || low.endsWith('ность') || low.endsWith('сть')) return token;
 
-  // 5. Глагол → пропускаем
+  // 5. Глагол → не трогаем
   if (isVerb(low)) return token;
 
-  // 6. Прилагательное → пропускаем
+  // 6. Прилагательное → не трогаем
   if (isAdj(low)) return token;
 
-  // 7. Существительное → переводим
+  // 7. Вероятностный фильтр (режим)
+  if (Math.random() > prob) return token;
+
+  // 8. Снимаем окончание, добавляем суффикс
   const root = stripNoun(core);
   const result = addSuffix(root);
-  return pre + (isCap ? result[0].toUpperCase() + result.slice(1) : result) + post;
+  if (!result) return token; // окончание из «не трогать» группы
+
+  return wrap(result);
 }
 
+// ================================================================
+// Перевод текста
+// ================================================================
 function translateText(text) {
-  // Разбиваем на токены: слова + пробелы + знаки
+  const prob = MODE_PROB[currentMode];
+  // Разбиваем: пробелы/переносы отдельно, слова отдельно
   const tokens = text.split(/(\s+)/);
-  return tokens.map(t => /^\s+$/.test(t) ? t : translateWord(t)).join('');
+  return tokens.map(t => /^\s+$/.test(t) ? t : translateWord(t, prob)).join('');
 }
 
-// ——— Основная логика ———
+// ================================================================
+// Проверка на латиницу
+// ================================================================
+function hasLatin(text) {
+  return /[a-zA-Z]/.test(text);
+}
+
+// ================================================================
+// UI
+// ================================================================
 const inputEl   = document.getElementById('inputText');
 const outputEl  = document.getElementById('outputText');
 const counterEl = document.getElementById('counter');
 const errorEl   = document.getElementById('limitError');
 
-inputEl.addEventListener('input', function() {
-  const len = inputEl.value.length;
-  counterEl.textContent = len + ' / ' + LIMIT;
+function showError(msg) {
+  errorEl.textContent = msg;
+  errorEl.classList.add('visible');
+  inputEl.classList.add('err-border');
+  outputEl.value = '';
+}
 
-  if (len === 0) {
-    counterEl.className = 't-counter';
-    errorEl.classList.remove('visible');
-    inputEl.classList.remove('error-border');
-    outputEl.value = '';
-    return;
-  }
-
-  if (len > LIMIT) {
-    counterEl.className = 't-counter over';
-    errorEl.classList.add('visible');
-    inputEl.classList.add('error-border');
-    outputEl.value = '';
-    return;
-  }
-
-  if (len > LIMIT * 0.8) {
-    counterEl.className = 't-counter warn';
-  } else {
-    counterEl.className = 't-counter';
-  }
-
+function clearError() {
   errorEl.classList.remove('visible');
-  inputEl.classList.remove('error-border');
-  outputEl.value = translateText(inputEl.value);
-});
+  inputEl.classList.remove('err-border');
+}
+
+function reTranslate() {
+  const text = inputEl.value;
+  const len = text.length;
+
+  counterEl.textContent = len + ' / ' + LIMIT;
+  counterEl.className = 't-counter' + (len > LIMIT ? ' over' : len > LIMIT * 0.8 ? ' warn' : '');
+
+  if (len === 0) { clearError(); outputEl.value = ''; return; }
+  if (len > LIMIT) { showError('Ч не могу перевести текст: лимит символов за перевод превышен (' + LIMIT + ' символов).'); return; }
+  if (hasLatin(text)) { showError('Ч не могу перевести текст: не все буквы написаны кириллицей.'); return; }
+
+  clearError();
+  outputEl.value = translateText(text);
+}
+
+inputEl.addEventListener('input', reTranslate);
 
 function clearAll() {
   inputEl.value = '';
   outputEl.value = '';
   counterEl.textContent = '0 / ' + LIMIT;
   counterEl.className = 't-counter';
-  errorEl.classList.remove('visible');
-  inputEl.classList.remove('error-border');
+  clearError();
 }
 
 function copyResult() {
@@ -500,13 +414,9 @@ function copyResult() {
     const btn = document.getElementById('copyBtn');
     btn.textContent = 'Скопировано ✓';
     btn.classList.add('copied');
-    setTimeout(() => {
-      btn.textContent = 'Скопировать';
-      btn.classList.remove('copied');
-    }, 2000);
+    setTimeout(() => { btn.textContent = 'Скопировать'; btn.classList.remove('copied'); }, 2000);
   });
 }
 </script>
-
 </body>
 </html>
